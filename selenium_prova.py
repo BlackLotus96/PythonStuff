@@ -5,7 +5,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 #PROVA
-PATH = "C:/Users/simone.meddi/Desktop/Simone/PythonDrivers/chromedriver.exe"
+
+PATH = "C:/Users/simon/OneDrive/Desktop/Python/PythonDriver/chromedriver.exe"
 driver = webdriver.Chrome(PATH)
 
 driver.get("https://www.eurobet.it/it/scommesse/#!/")
