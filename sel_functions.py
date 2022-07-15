@@ -16,4 +16,4 @@ class ClassWait:
             EC.presence_of_element_located((self.type_attr, self.name_attr))
             )
         finally:
-            element.click()
+            return element
