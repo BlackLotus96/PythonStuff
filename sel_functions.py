@@ -1,5 +1,6 @@
 
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 
 class ClassWait:
@@ -10,10 +11,22 @@ class ClassWait:
         self.name_attr = name_attr
         self.wait_time = wait_time
 
-    def WaitConditions(self):
+    def WaitConditionsButtons(self):
         try:
             element = WebDriverWait(self.driver, self.wait_time).until(
             EC.presence_of_element_located((self.type_attr, self.name_attr))
             )
         finally:
-            return element
+            element.click()
+
+
+    def WaitConditionsInputBox(self, destination):
+        try:
+
+            element = WebDriverWait(self.driver, self.wait_time).until(
+            EC.presence_of_element_located((self.type_attr, self.name_attr))
+            )
+            print("due")
+        finally:
+            element.click()
+            element.send_keys(destination)

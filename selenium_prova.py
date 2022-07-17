@@ -19,7 +19,7 @@ finally:
 	cookie_accepted.click()
 
 try:
-	bonus = WebDriverWait(driver, 10).until(
+	bonus = WebDriverWait(driver, 20).until(
 		EC.presence_of_element_located(('id', "att_lightbox_close"))
 		)
 finally:

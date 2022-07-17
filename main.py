@@ -18,17 +18,21 @@ def main():
     #options.headless = True
 
     name = 'chromedriver.exe'
-    root = 'C:/Users/simone.meddi/Desktop/Simone'
+    root = 'C:/Users/simon/OneDrive/Desktop/Python'
     path = find(name, root).replace('\\', '/')
     driver = webdriver.Chrome(path)
-    driver.get("https://www.skyscanner.it/")
-    #holdBot = ClassWait(driver, By.ID, "QDqceQXfNxsWMOn", 20)
-    time.sleep(10)
-    cookie = ClassWait(driver, By.ID, "acceptCookieButton", 10)
-    cookie.WaitConditions().click()
+    driver.get("https://www.kayak.it/")
+    time.sleep(5)
+    cookie = ClassWait(driver, By.XPATH, "/html/body/div[5]/div/div[3]/div/div/div[2]/div/div/div[1]/button", 10)
+    cookie.WaitConditionsButtons()
+    cookie = ClassWait(driver, By.XPATH, "/html/body/div[1]/div[1]/main/div[1]/div[1]/div/div[1]/div/div/section[2]/div[2]/div/div/div/div/div[1]/div[2]/div/div[3]/div/div/input", 5)
+    cookie.WaitConditionsInputBox("lisbona")
 
-    destination = ClassWait(driver, By.CLASS_NAME, "BpkInput_bpk-input__ZDdkM SingleDestControls_fsc-large-above-tablet__Mjg0Y SingleDestControls_fsc-docked-middle-above-tablet__MmIwM SingleDestControls_fsc-docked-last-on-tablet__MDI0N LocationSelector_fsc-location-input__NDRiO", 5)
-    destination.WaitConditions().clear().send_keys("Lisbona")
+    time.sleep(20)
+
+    #destination = ClassWait(driver, By.CLASS_NAME, "BpkInput_bpk-input__ZDdkM SingleDestControls_fsc-large-above-tablet__Mjg0Y SingleDestControls_fsc-docked-middle-above-tablet__MmIwM SingleDestControls_fsc-docked-last-on-tablet__MDI0N LocationSelector_fsc-location-input__NDRiO", 5)
+    #destination.WaitConditionsInputBox()
+
 
 
 
