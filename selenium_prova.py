@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 #PROVA
+#
 
 PATH = "C:/Users/simon/OneDrive/Desktop/Python/PythonDriver/chromedriver.exe"
 driver = webdriver.Chrome(PATH)

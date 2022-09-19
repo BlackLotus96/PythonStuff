@@ -25,7 +25,7 @@ def main():
     driver.get("https://www.cardmarket.com/it/Magic")
     #time.sleep(20)
     #sys.exit()
-
+#
     cookie = ClassWait(driver, By.XPATH, "/html/body/header/div[1]/div/div/form/button", 10)
     cookie.WaitConditionsButtons()
 
