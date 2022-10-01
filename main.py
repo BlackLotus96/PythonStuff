@@ -1,42 +1,79 @@
-from sel_functions import *
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk, RIGHT, TOP, LEFT, BOTTOM, BOTH, X, Y
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+import os
+import search_xpath
+import re
 
-import sys
-import canva
-##
-import time
-#
-def main(driver):
-    cookie = ClassWait(driver, By.XPATH, "/html/body/header/div[1]/div/div/form/button", 10)
-    cookie.WaitConditionsButtons()
+times_of_pressure = 0
+def find(name, path):
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            return os.path.join(root, name)
 
-    tbody_XPATH = "/html/body/main/section[2]/div/div[2]/div[1]/table/tbody"
-    tbody_XPATH_2 = "/html/body/main/section/div[3]/div[2]"
-    tbody = driver.find_element("xpath", tbody_XPATH_2)
+def screen(driver):
+    global root
 
-    for i_tr in range(1, len(tbody.find_elements(By.XPATH , "./*"))+1):
-        tr_XPATH = tbody_XPATH_2+"/div["+str(i_tr)+"]"
-        tr = driver.find_element(By.XPATH, tr_XPATH)
-        print("@@@@@@@@@@@@@@@@@@")
-        for i_td in range(1, len(tr.find_elements(By.XPATH , "./*"))+1):
-            td_XPATH = tr_XPATH+"/div["+str(i_td)+"]"
-            td = driver.find_element(By.XPATH, td_XPATH)
-            print(td.text)
-
-    while True:
-        pass
-
-    #destination = ClassWait(driver, By.CLASS_NAME, "BpkInput_bpk-input__ZDdkM SingleDestControls_fsc-large-above-tablet__Mjg0Y SingleDestControls_fsc-docked-middle-above-tablet__MmIwM SingleDestControls_fsc-docked-last-on-tablet__MDI0N LocationSelector_fsc-location-input__NDRiO", 5)
-    #destination.WaitConditionsInputBox()
+    list_entry = []
+    list_name_button = []
+    root= tk.Tk()
+    my_name = ""
+    root.geometry("400x300")
+    root.title("Breccia's sorter")
 
 
+
+    def addLink():
+        nextRow = len(list_entry)
+        name_button = f"Registra {nextRow+1}° Ordine"
+        list_name_button.append(name_button)
+
+        button = tk.Button(root, text=name_button, command=lambda: getLink(name_button))
+        button.grid(row = nextRow+1, column = 0, sticky = tk.W, pady = 2)
+
+        entry = tk.Entry(root, width=70)
+        entry.grid(row = nextRow+1, column = 1, sticky = tk.W, pady = 2)
+
+        list_entry.append(entry)
+
+        w = 400
+        h = 300+len(list_entry)*30
+        root.geometry(f"{w}x{h}")
+
+    def getLink(name_button):
+        global times_of_pressure
+        number_in_list = [int(s) for s in re.findall(r'\b\d+\b', name_button)]
+        x = list_entry[number_in_list[0]-1].get()
+        if x == "":
+            messagebox.showerror("showerror", "Inserire un link!")
+        elif not x.startswith("https://www.cardmarket.com/"):
+            messagebox.showerror("showerror", "Inserire un link valido di mkm")
+        else:
+            driver.get(x)
+            times_of_pressure+=1
+            search_xpath.search(driver, times_of_pressure)
+        #root.quit()
+
+
+    button_add = tk.Button(root, text='Aggiungi Link', command=addLink)
+    button_add.grid(row = 0, column = 0, sticky = tk.W, pady = 2)
+
+
+    #search_xpath.search(driver)
+    print("mainloop")
+    root.mainloop()
 
 if __name__ == "__main__":
+
     driver_name = 'chromedriver.exe'
     driver_path = r"C:\Users\simon\OneDrive\Desktop\Python\PythonDriver"
-
-    driver = canva.screen(driver_name, driver_path)
-    print("prova")
-    main(driver)
+    path = find(driver_name, driver_path).replace('\\', '/')
+    options = Options()
+    #options.add_argument('--headless')
+    #options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(path, chrome_options=options)
+    print("prima di screen")
+    screen(driver)
+    print("dopo di screen")

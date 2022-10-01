@@ -2,6 +2,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 #
 class ClassWait:
 
@@ -16,9 +17,21 @@ class ClassWait:
             element = WebDriverWait(self.driver, self.wait_time).until(
             EC.presence_of_element_located((self.type_attr, self.name_attr))
             )
-        finally:
             element.click()
+        except TimeoutException:
+            print("Pulsante non trovato, tempo scaduto")
+        finally:
+            pass
 
+    def WaitConditionsHrefElement(self):
+        try:
+            element = WebDriverWait(self.driver, self.wait_time).until(
+            EC.presence_of_element_located((self.type_attr, self.name_attr))
+            )
+        except TimeoutException:
+            print("href non trovato, tempo scaduto")
+        finally:
+            pass
 
     def WaitConditionsInputBox(self, destination):
         try:
