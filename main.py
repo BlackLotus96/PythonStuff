@@ -25,13 +25,6 @@ def main(driver):
             td = driver.find_element(By.XPATH, td_XPATH)
             print(td.text)
 
-    '''
-    element = driver.find_element("xpath", "/html/body/main/section[2]/div/div[2]/div[1]/table/tbody/tr[4]")
-    print(element)
-    text = driver.find_element("xpath", "/html/body/main/section[2]/div/div[2]/div[1]/table/tbody/tr[4]/td[4]")
-    print(text.text)
-    '''
-
     while True:
         pass
 
@@ -45,6 +38,5 @@ if __name__ == "__main__":
     driver_path = r"C:\Users\simon\OneDrive\Desktop\Python\PythonDriver"
 
     driver = canva.screen(driver_name, driver_path)
-    print("prova1")
+    print("prova")
     main(driver)
-    print("prova2")
