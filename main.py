@@ -68,7 +68,7 @@ def screen(driver):
 if __name__ == "__main__":
 
     driver_name = 'chromedriver.exe'
-    driver_path = r"C:\Users\simone.meddi\Desktop\Simone\Python\PythonDrivers"
+    driver_path = r"C:\Users\simon\OneDrive\Desktop\Python\PythonDriver"
     path = find(driver_name, driver_path).replace('\\', '/')
     options = Options()
     #options.add_argument('--headless')
