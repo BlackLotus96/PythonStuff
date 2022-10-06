@@ -2,24 +2,42 @@ from sel_functions import *
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
 import json
 import sys
-##
+import concurrent.futures
 import time
 
 
-def search(driver, times_of_pressure):
-    if times_of_pressure == 1:
-        cookie = ClassWait(driver, By.XPATH, "/html/body/header/div[1]/div/div/form/button", 10)
-        cookie.WaitConditionsButtons()
-        mat = loopBodyXpath(driver)
-    if times_of_pressure > 1:
-        mat = loopBodyXpath(driver)
+def search(link):
+
+
+    driver_name = 'chromedriver.exe'
+    driver_path = r"C:\Users\simon\OneDrive\Desktop\Python\PythonDriver"
+    path = find(driver_name, driver_path).replace('\\', '/')
+    options = Options()
+    #options.add_argument('--headless')
+    #options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(path, chrome_options=options)
+    driver.get(link)
+    cookie = ClassWait(driver, By.XPATH, "/html/body/header/div[1]/div/div/form/button", 10)
+    cookie.WaitConditionsButtons()
+
+    mat = loopBodyXpath(driver)
     diz = formatMatrix(mat)
-    json_object = json.dumps(diz, indent = 4) 
+    json_object = json.dumps(diz, indent = 4)
     print(json_object)
-#/html/body/main/section/div[3]/div[2]/div[3]/div[3]/a
-    #/html/body/main/section/div[3]/div[2]/div[5]/div[3]/a
+
+def startMultiProcess(list_of_links):
+    start = time.perf_counter()
+    print(list_of_links)
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        results = executor.map(search, list_of_links)
+    finish = time.perf_counter()
+    print(f'Finished in {round(finish-start, 2)}, second(s)')
+
+
 def loopBodyXpath(driver):
     ListLabel = ["Espansione: ", "Nome ITA: ", "Nome ENG: ", "Disponibilità: ", "Prezzo: "]
     number_element = 0
