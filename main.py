@@ -1,15 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk, RIGHT, TOP, LEFT, BOTTOM, BOTH, X, Y
-import os
+
 import search_xpath
 import re
 
 times_of_pressure = 0
-def find(name, path):
-    for root, dirs, files in os.walk(path):
-        if name in files:
-            return os.path.join(root, name)
+
 
 def screen():
     global root

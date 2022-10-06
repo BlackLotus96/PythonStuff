@@ -8,19 +8,24 @@ import json
 import sys
 import concurrent.futures
 import time
+import os
 
+def find(name, path):
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            return os.path.join(root, name)
 
 def search(link):
-
-
     driver_name = 'chromedriver.exe'
     driver_path = r"C:\Users\simon\OneDrive\Desktop\Python\PythonDriver"
     path = find(driver_name, driver_path).replace('\\', '/')
     options = Options()
-    #options.add_argument('--headless')
-    #options.add_argument('--disable-gpu')
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
     driver = webdriver.Chrome(path, chrome_options=options)
     driver.get(link)
+    print(driver)
+
     cookie = ClassWait(driver, By.XPATH, "/html/body/header/div[1]/div/div/form/button", 10)
     cookie.WaitConditionsButtons()
 
@@ -31,9 +36,8 @@ def search(link):
 
 def startMultiProcess(list_of_links):
     start = time.perf_counter()
-    print(list_of_links)
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        results = executor.map(search, list_of_links)
+        executor.map(search, list_of_links)
     finish = time.perf_counter()
     print(f'Finished in {round(finish-start, 2)}, second(s)')
 
