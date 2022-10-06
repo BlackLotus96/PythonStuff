@@ -5,42 +5,57 @@ from tkinter import ttk, RIGHT, TOP, LEFT, BOTTOM, BOTH, X, Y
 import search_xpath
 import re
 
-times_of_pressure = 0
+global root
+w = 800
+h = 600
 
 
 def screen():
-    global root
 
-    list_entry = []
     list_name_button = []
     list_of_links = []
+    list_of_triples = []
     root= tk.Tk()
     my_name = ""
-    root.geometry("400x300")
+    root.geometry(f"{w}x{h}")
     root.title("Breccia's sorter")
 
 
 
     def addLink():
-        nextRow = len(list_entry)
+        global h
+        global w
+        nextRow = len(list_of_triples)
         name_button = f"Registra {nextRow+1}° Ordine"
-        list_name_button.append(name_button)
+        number_in_list = [int(s) for s in re.findall(r'\b\d+\b', name_button)]
 
-        button = tk.Button(root, text=name_button, command=lambda: saveLink(name_button))
+        button = tk.Button(root, text=name_button, command=lambda: saveLink(number_in_list[0]))
         button.grid(row = nextRow+1, column = 0, sticky = tk.W, pady = 2)
 
-        entry = tk.Entry(root, width=70)
-        entry.grid(row = nextRow+1, column = 1, sticky = tk.W, pady = 2)
+        button_cancel = tk.Button(root, text="Cancella", command=lambda: cancelLink(number_in_list[0]))
+        button_cancel.grid(row = nextRow+1, column = 1, sticky = tk.W, pady = 2)
 
-        list_entry.append(entry)
+        entry = tk.Entry(root, width=140)
+        entry.grid(row = nextRow+1, column = 2, sticky = tk.W, pady = 2)
 
-        w = 400
-        h = 300+len(list_entry)*30
+        list_of_triples.append([button, button_cancel, entry])
+
+        h = 600+len(list_of_triples)*30
         root.geometry(f"{w}x{h}")
 
-    def saveLink(name_button):
-        number_in_list = [int(s) for s in re.findall(r'\b\d+\b', name_button)]
-        x = list_entry[number_in_list[0]-1].get()
+    def cancelLink(number):
+        butt_1_widg = list_of_triples[number-1][0]
+        butt_2_widg = list_of_triples[number-1][1]
+        entry_widg = list_of_triples[number-1][2]
+        butt_1_widg.destroy()
+        butt_2_widg.destroy()
+        entry_widg.destroy()
+        if len(list_of_links) != 0:
+            index = list_of_links.index()
+            list_of_links.pop(index)
+
+    def saveLink(number):
+        x = list_of_triples[number-1][2].get()
         if x == "":
             messagebox.showerror("showerror", "Inserire un link!")
         elif not x.startswith("https://www.cardmarket.com/"):
