@@ -15,6 +15,7 @@ def screen():
     list_name_button = []
     list_of_links = []
     list_of_triples = []
+    list_of_number_links = []
     root= tk.Tk()
     my_name = ""
     root.geometry(f"{w}x{h}")
@@ -51,8 +52,9 @@ def screen():
         butt_2_widg.destroy()
         entry_widg.destroy()
         if len(list_of_links) != 0:
-            index = list_of_links.index()
-            list_of_links.pop(index)
+            index = list_of_number_links.index(number-1)
+            del list_of_links[index]
+            list_of_number_links.pop(number-1)
 
     def saveLink(number):
         x = list_of_triples[number-1][2].get()
@@ -62,9 +64,11 @@ def screen():
             messagebox.showerror("showerror", "Inserire un link valido di mkm")
         elif x not in list_of_links:
             list_of_links.append(x)
+            list_of_number_links.append(number-1)
         else:
             messagebox.showerror("showerror", "Link già registrato!")
-
+        print(list_of_links)
+        print(list_of_number_links)
         #root.quit()
 
     def start():
